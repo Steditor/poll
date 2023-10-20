@@ -31,7 +31,7 @@ export default class PollAPI {
   public readonly roomAPI: RoomAPI;
 
   constructor() {
-    this._client = new Colyseus.Client(getEndpoint());
+    this._client = new Colyseus.Client(import.meta.env.VITE_API_URL);
     this.playerAPI = new PlayerAPI(this);
     this.roomAPI = new RoomAPI(this);
     this.store = new PollStore(this);
@@ -115,11 +115,4 @@ export default class PollAPI {
   private onBeforeUnload() {
     this._room?.leave(true);
   }
-}
-
-function getEndpoint() {
-  const host = window.document.location.host.replace(/:.*/, "");
-  const port = location.port ? ":" + location.port : "";
-  const protocol = location.protocol.replace(/http(s?)/, "ws$1");
-  return protocol + "//" + host + port;
 }

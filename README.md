@@ -4,7 +4,7 @@ Ask people to vote on single-choice/multiple-choice options.
 
 ## Setup
 
-Create a `local.config.json` according to the template in [`local.config.json.example`](local.config.json.example).
+Create a `.env.local` file to override the default configuration given in `.env`.
 Take note of the port you specify for the express server, you will need it both for development and deployment.
 
 Run `npm install` in the main directory to install all packages for both server and client.

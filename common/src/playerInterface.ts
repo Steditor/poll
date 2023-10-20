@@ -8,9 +8,10 @@ export const BecomeAdminPayload: JSONSchemaType<BecomeAdminPayload> = {
   maxLength: 15,
 };
 
-export type SessionIdPayload = string;
+export type VotePayload = number;
 
-export const SessionIdPayload: JSONSchemaType<SessionIdPayload> = {
-  type: "string",
-  minLength: 1,
+export const VotePayload: JSONSchemaType<VotePayload> = {
+  type: "number",
+  minimum: 0,
+  maximum: 255,
 };

@@ -76,7 +76,7 @@
         );
       },
       numberOfPeople() {
-        return this.$pollAPI.store.players.size;
+        return this.$pollAPI.store.numberOfPlayers;
       },
     },
   });

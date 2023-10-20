@@ -8,13 +8,23 @@ import { watchObject } from "./helpers";
 export default class PlayerStore implements SchemaProperties<PollPlayer> {
   private readonly _properties = reactive<SchemaProperties<PollPlayer>>({
     admin: false,
+    vote: 0,
+    voted: false,
   });
 
   constructor(player: PollPlayer) {
-    watchObject(this._properties, player);
+    watchObject(this._properties, player, ["admin", "vote", "voted"]);
   }
 
   get admin(): boolean {
     return this._properties.admin;
+  }
+
+  get vote(): number {
+    return this._properties.vote;
+  }
+
+  get voted(): boolean {
+    return this._properties.voted;
   }
 }

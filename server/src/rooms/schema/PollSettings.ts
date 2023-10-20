@@ -7,6 +7,12 @@ export class PollSettings extends Schema {
   @type("uint8")
   numberOfOptions = 3;
 
+  @type("boolean")
+  openVote = false;
+
+  @type("boolean")
+  showResults = false;
+
   @filter(function (client, value, state: PollState) {
     return state.players.get(client.sessionId)?.admin ?? false;
   })

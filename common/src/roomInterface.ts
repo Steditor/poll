@@ -26,7 +26,10 @@ export enum PollCloseCodes {
 }
 
 export type SetSettingsPayload = Partial<
-  Pick<SchemaProperties<PollSettings>, "numberOfOptions">
+  Pick<
+    SchemaProperties<PollSettings>,
+    "numberOfOptions" | "openVote" | "showResults"
+  >
 >;
 
 export const SetSettingsPayload: JSONSchemaType<SetSettingsPayload> = {
@@ -34,8 +37,16 @@ export const SetSettingsPayload: JSONSchemaType<SetSettingsPayload> = {
   properties: {
     numberOfOptions: {
       type: "number",
-      minimum: 0,
+      minimum: 2,
       maximum: 255,
+      nullable: true,
+    },
+    openVote: {
+      type: "boolean",
+      nullable: true,
+    },
+    showResults: {
+      type: "boolean",
       nullable: true,
     },
   },

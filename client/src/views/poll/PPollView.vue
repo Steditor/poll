@@ -1,5 +1,7 @@
 <template>
-  <PPoll class="p-full-size" />
+  <div class="h-full flex flex-column justify-content-center">
+    <PPoll />
+  </div>
 </template>
 
 <script lang="ts">

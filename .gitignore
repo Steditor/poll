@@ -1,5 +1,5 @@
 # Local configuration
-local.config.json
+.env.local
 
 # Dependency directories
 node_modules

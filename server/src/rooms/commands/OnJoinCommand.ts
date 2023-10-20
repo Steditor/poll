@@ -23,6 +23,7 @@ export class OnJoinCommand extends Command<
     const player = new PollPlayer();
 
     this.state.players.set(client.sessionId, player);
+    this.state.numberOfPlayers++;
     game.onPlayerJoin(client);
 
     const commands = [] as Array<Command>;

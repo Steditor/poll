@@ -24,6 +24,7 @@ export class OnLeaveCommand extends Command<
     if (consented || timeout) {
       game.onPlayerLeave(client);
       this.state.players.delete(client.sessionId);
+      this.state.numberOfPlayers--;
     }
   }
 }

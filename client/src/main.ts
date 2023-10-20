@@ -10,7 +10,9 @@ import pollAPI from "./pollAPI";
 import router from "./router";
 import "./styles/styles";
 
-const app = createApp(App).use(router).use(pollAPI);
+const app = createApp(App);
+app.use(pollAPI);
+app.use(router);
 app.use(PrimeVue);
 app.use(ConfirmationService);
 app.use(ToastService);

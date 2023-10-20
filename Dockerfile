@@ -8,7 +8,6 @@ COPY ./common/package*.json ./common/
 COPY ./server/package*.json ./server/
 RUN npm ci
 COPY . .
-COPY local.config.json.example local.config.json
 RUN npm run build
 
 ENV NODE_ENV=production
@@ -25,6 +24,6 @@ ENV VUE_DIST_DIR=/app/client/dist
 WORKDIR /app/server/dist
 ENV NODE_ENV=production
 EXPOSE 2567
-CMD [ "node", "index.js", "--experimental-json-modules" ]
+CMD [ "node", "index.js" ]
 
 LABEL org.opencontainers.image.source https://github.com/Steditor/poll

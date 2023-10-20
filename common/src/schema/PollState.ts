@@ -13,7 +13,6 @@ import {
   type,
 } from "@colyseus/schema";
 
-import { PollGameData } from "./PollGameData";
 import { PollPlayer } from "./PollPlayer";
 import { PollSettings } from "./PollSettings";
 
@@ -21,5 +20,7 @@ export class PollState extends Schema {
   @type(PollSettings) public settings: PollSettings = new PollSettings();
   @type({ map: PollPlayer }) public players: MapSchema<PollPlayer> =
     new MapSchema<PollPlayer>();
-  @type(PollGameData) public gameData: PollGameData = new PollGameData();
+  @type("uint32") public numberOfPlayers!: number;
+  @type({ map: "number" }) public votes: MapSchema<number> =
+    new MapSchema<number>();
 }

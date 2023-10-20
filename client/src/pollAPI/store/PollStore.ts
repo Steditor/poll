@@ -1,11 +1,11 @@
 import * as Colyseus from "colyseus.js";
 
-import { ref, shallowReactive } from "vue";
+import { ref, shallowReactive, watch } from "vue";
 
 import { PollState } from "@poll/common/schema/PollState";
 
 import PollAPI from "../PollAPI";
-import GameDataStore from "./GameDataStore";
+import LocalStore from "./LocalStore";
 import PlayerStore from "./PlayerStore";
 import SettingsStore from "./SettingsStore";
 import { watchMap } from "./helpers";
@@ -16,8 +16,11 @@ export default class PollStore {
   private readonly _roomId = ref<null | string>(null);
 
   public readonly settings = new SettingsStore();
-  public readonly gameData = new GameDataStore();
   public readonly players = shallowReactive(new Map<string, PlayerStore>());
+  public readonly numberOfPlayers = ref<number>(0);
+  public readonly votes = shallowReactive(new Map<string, number>());
+
+  public readonly local = new LocalStore();
 
   constructor(api: PollAPI) {
     this._api = api;
@@ -30,9 +33,16 @@ export default class PollStore {
     this._roomId.value = room.id;
 
     this.settings.watch(room.state.settings);
-    this.gameData.watch(room.state.gameData);
+    watchMap(this.players, room.state.players, PlayerStore);
+    room.state.listen("numberOfPlayers", (value) => {
+      this.numberOfPlayers.value = value;
+    });
+    watchMap(this.votes, room.state.votes);
 
-    watchMap(this.players, PlayerStore, room.state.players);
+    watch(
+      () => this.me()?.vote,
+      () => (this.local.sentVote = undefined),
+    );
   }
 
   public clear(): void {
@@ -40,8 +50,11 @@ export default class PollStore {
     this._roomId.value = null;
 
     this.settings.clear();
-    this.gameData.clear();
     this.players.clear();
+    this.numberOfPlayers.value = 0;
+    this.votes.clear();
+
+    this.local.clear();
   }
 
   get sessionId(): string | null {

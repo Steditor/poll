@@ -3,6 +3,7 @@
     <div class="col-12 lg:col-6 lg:col-offset-3">
       <PModInfo />
       <PModSettings class="mt-3" />
+      <PModResults class="mt-3" />
     </div>
   </div>
   <PModLogin v-else />
@@ -13,6 +14,7 @@
 
   import PModInfo from "./PModInfo.vue";
   import PModLogin from "./PModLogin.vue";
+  import PModResults from "./PModResults.vue";
   import PModSettings from "./PModSettings.vue";
 
   export default defineComponent({
@@ -20,6 +22,7 @@
     components: {
       PModInfo,
       PModLogin,
+      PModResults,
       PModSettings,
     },
     methods: {

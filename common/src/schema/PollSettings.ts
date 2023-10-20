@@ -15,5 +15,7 @@ import {
 
 export class PollSettings extends Schema {
   @type("uint8") public numberOfOptions!: number;
+  @type("boolean") public openVote!: boolean;
+  @type("boolean") public showResults!: boolean;
   @type("string") public moderationKey!: string;
 }
