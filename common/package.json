@@ -1,0 +1,16 @@
+{
+  "name": "@poll/common",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "clean": "rimraf --glob dist *.tsbuildinfo",
+    "lint": "eslint \"./**/*.{js,ts}\"",
+    "lint:fix": "eslint \"./**/*.{js,ts}\" --fix",
+    "dev": "tsc --build tsconfig.json --watch",
+    "prebuild": "npm run clean",
+    "build": "tsc --build tsconfig.build.json"
+  },
+  "exports": {
+    "./*": "./dist/*.js"
+  }
+}

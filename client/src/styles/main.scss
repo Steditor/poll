@@ -1,0 +1,50 @@
+html,
+body {
+  margin: 0;
+  padding: 0;
+  height: 100%;
+  overflow: hidden;
+
+  background-color: var(--surface-b);
+
+  font-family: var(--font-family);
+  color: var(--text-color);
+}
+
+#app {
+  height: 100%;
+}
+
+p {
+  line-height: 1.5;
+  margin: 0 0 1rem 0;
+}
+
+.p-full-size {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+}
+
+.p-flex-center-wrapper {
+  margin: auto;
+  padding: 1rem;
+}
+
+a {
+  color: var(--text-color-secondary);
+}
+
+// Primevue fixes
+
+.p-accordion .p-accordion-tab.p-accordion-tab-active {
+  margin-bottom: 0;
+}
+
+// As p-button-help
+.p-tag.p-tag-help {
+  background-color: #ce93d8;
+  color: #212121;
+}

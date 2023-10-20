@@ -1,0 +1,64 @@
+{
+  "name": "@poll/poll",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Ask people to vote on single-choice/multiple-choice options.",
+  "scripts": {
+    "clean": "npm run clean --workspaces && rimraf --glob *.tsbuildinfo",
+    "lint": "npm run lint --workspaces",
+    "lint:fix": "npm run lint:fix --workspaces",
+    "prettier": "prettier --write .",
+    "dev": "npm run build:common && stmux -w always -e ERROR -t \"Poll (Ctrl+a, ?)\" --mouse -- [ \"npm run dev:server\" .. \"npm run dev:client\" .. \"npm run dev:common\" ]",
+    "dev:server": "npm run dev -w server",
+    "dev:client": "npm run dev -w client",
+    "dev:common": "npm run dev -w common",
+    "build": "npm run build:common && npm run build:server && npm run build:client",
+    "build:server": "npm run build -w server",
+    "build:client": "npm run build -w client",
+    "build:common": "npm run build -w common",
+    "prepare": "husky install",
+    "build-favicon": "cd logo && real-favicon generate faviconDescription.json faviconData.json favicon",
+    "check-favicon": "cd logo && real-favicon check-for-update --fail-on-update faviconData.json"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git@github.com:Steditor/poll.git"
+  },
+  "keywords": [
+    "poll"
+  ],
+  "author": "Stefan Neubert <dev@steditor.net>",
+  "license": "MIT",
+  "workspaces": [
+    "client",
+    "server",
+    "common"
+  ],
+  "dependencies": {
+    "ajv": "^8.12.0",
+    "lodash-es": "^4.17.21",
+    "nanoid": "^5.0.2",
+    "tslib": "^2.6.2"
+  },
+  "devDependencies": {
+    "@colyseus/schema": "^2.0.19",
+    "@trivago/prettier-plugin-sort-imports": "^4.2.0",
+    "@types/lodash-es": "^4.17.10",
+    "@types/node": "^20.8.7",
+    "@typescript-eslint/eslint-plugin": "^6.8.0",
+    "@typescript-eslint/parser": "^6.8.0",
+    "cli-real-favicon": "^0.0.8",
+    "eslint": "^8.51.0",
+    "eslint-config-prettier": "^9.0.0",
+    "husky": "^8.0.3",
+    "lint-staged": "^15.0.2",
+    "nodemon": "^3.0.1",
+    "prettier": "^3.0.3",
+    "rimraf": "^5.0.5",
+    "stmux": "^1.8.7",
+    "ts-loader": "^9.5.0",
+    "ts-node": "^10.9.1",
+    "tsconfig-paths": "^4.2.0",
+    "typescript": "^5.2.2"
+  }
+}
