@@ -3,6 +3,8 @@ import { Dispatcher } from "@colyseus/command";
 import { Client } from "colyseus";
 
 import { Poll } from "../Poll";
+import { ClearVotesCommand } from "../commands/ClearVotesCommand.js";
+import { VoteCommand } from "../commands/VoteCommand.js";
 import { PollState } from "../schema/PollState.js";
 import { Game } from "./Game.js";
 
@@ -28,5 +30,17 @@ export class DefaultGame extends Game {
     client: Client,
     message: unknown,
     dispatcher: Dispatcher<Poll>,
-  ): void {}
+  ): void {
+    switch (type) {
+      case "vote":
+        dispatcher.dispatch(new VoteCommand(), {
+          client,
+          vote: message as any,
+        });
+        break;
+      case "clearVotes":
+        dispatcher.dispatch(new ClearVotesCommand(), { client });
+        break;
+    }
+  }
 }

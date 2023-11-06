@@ -5,11 +5,9 @@ import Ajv from "ajv";
 import { PollRoomJoinOptions } from "@poll/common/roomInterface";
 
 import { BecomeAdminCommand } from "./commands/BecomeAdminCommand.js";
-import { ClearVotesCommand } from "./commands/ClearVotesCommand.js";
 import { OnJoinCommand } from "./commands/OnJoinCommand.js";
 import { OnLeaveCommand } from "./commands/OnLeaveCommand.js";
 import { SetSettingsCommand } from "./commands/SetSettingsCommand.js";
-import { VoteCommand } from "./commands/VoteCommand.js";
 import { DefaultGame } from "./games/DefaultGame.js";
 import { Game } from "./games/Game.js";
 import { PollState } from "./schema/PollState.js";
@@ -38,14 +36,6 @@ export class Poll extends Room<PollState> {
 
     this.onMessage("becomeAdmin", (client, key) => {
       this.dispatcher.dispatch(new BecomeAdminCommand(), { client, key });
-    });
-
-    this.onMessage("vote", (client, vote) => {
-      this.dispatcher.dispatch(new VoteCommand(), { client, vote });
-    });
-
-    this.onMessage("clearVotes", (client) => {
-      this.dispatcher.dispatch(new ClearVotesCommand(), { client });
     });
 
     this.onMessage("*", (client, type, message) => {
