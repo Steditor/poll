@@ -7,6 +7,9 @@ export class PollSettings extends Schema {
   @type("uint8")
   numberOfOptions = 3;
 
+  @type("string")
+  numbering = "lower-alpha";
+
   @type("boolean")
   openVote = false;
 

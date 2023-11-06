@@ -17,6 +17,7 @@ export default class SettingsStore implements SchemaProperties<PollSettings> {
   public watch(settings: PollSettings): void {
     watchObject(this._properties, settings, [
       "numberOfOptions",
+      "numbering",
       "openVote",
       "showResults",
       "moderationKey",
@@ -25,6 +26,10 @@ export default class SettingsStore implements SchemaProperties<PollSettings> {
 
   get numberOfOptions(): number {
     return this._properties.numberOfOptions;
+  }
+
+  get numbering(): string {
+    return this._properties.numbering;
   }
 
   get openVote(): boolean {
@@ -43,6 +48,7 @@ export default class SettingsStore implements SchemaProperties<PollSettings> {
 function defaultSettings(): SchemaProperties<PollSettings> {
   return {
     numberOfOptions: 3,
+    numbering: "lower-alpha",
     openVote: false,
     showResults: false,
     moderationKey: "",

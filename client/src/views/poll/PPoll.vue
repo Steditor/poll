@@ -2,8 +2,10 @@
   <ol
     class="poll-container"
     role="list"
-    style="--p-option-style: lower-alpha"
-    :style="{ '--p-max-votes': maxVotes }"
+    :style="{
+      '--p-max-votes': maxVotes,
+      '--p-option-style': $pollAPI.store.settings.numbering,
+    }"
   >
     <PVoteOption :index="0" :readonly="readonly" :abstention="true" />
     <PVoteOption

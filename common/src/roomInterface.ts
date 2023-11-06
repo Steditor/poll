@@ -28,9 +28,28 @@ export enum PollCloseCodes {
 export type SetSettingsPayload = Partial<
   Pick<
     SchemaProperties<PollSettings>,
-    "numberOfOptions" | "openVote" | "showResults"
+    "numberOfOptions" | "numbering" | "openVote" | "showResults"
   >
 >;
+
+export const NUMBERINGS = [
+  "lower-alpha",
+  "upper-alpha",
+  "decimal",
+  "lower-roman",
+  "upper-roman",
+] as const;
+
+export const LABELED_NUMBERINGS: readonly {
+  label: string;
+  value: (typeof NUMBERINGS)[number];
+}[] = [
+  { label: "a, b, c, d, ...", value: "lower-alpha" },
+  { label: "A, B, C, D, ...", value: "upper-alpha" },
+  { label: "1, 2, 3, 4, ...", value: "decimal" },
+  { label: "i, ii, iii, iv, ...", value: "lower-roman" },
+  { label: "I, II, III, IV, ...", value: "upper-roman" },
+] as const;
 
 export const SetSettingsPayload: JSONSchemaType<SetSettingsPayload> = {
   type: "object",
@@ -39,6 +58,11 @@ export const SetSettingsPayload: JSONSchemaType<SetSettingsPayload> = {
       type: "number",
       minimum: 2,
       maximum: 255,
+      nullable: true,
+    },
+    numbering: {
+      type: "string",
+      enum: NUMBERINGS,
       nullable: true,
     },
     openVote: {
