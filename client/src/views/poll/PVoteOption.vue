@@ -16,7 +16,9 @@
       class="p-vote-result"
       :style="{ width: 'calc(' + 100 * numVotes + '% / var(--p-max-votes))' }"
     ></div>
-    <span class="p-vote-result-numbers">{{ numVotes }}</span>
+    <span class="p-vote-result-numbers"
+      >{{ percVotes }}&thinsp;% ({{ numVotes }})</span
+    >
   </li>
 </template>
 
@@ -62,6 +64,13 @@
       },
       numVotes(): number {
         return this.$pollAPI.store.votes.get(this.index.toString()) ?? 0;
+      },
+      percVotes(): number {
+        return this.$pollAPI.store.numberOfVoters.value > 0
+          ? Math.round(
+              (this.numVotes / this.$pollAPI.store.numberOfVoters.value) * 100,
+            )
+          : 0;
       },
       openVote(): boolean {
         return this.$pollAPI.store.settings.openVote && !this.readonly;
