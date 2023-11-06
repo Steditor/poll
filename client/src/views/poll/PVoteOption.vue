@@ -5,6 +5,7 @@
       'p-open-vote': openVote,
       'p-show-results': showResults,
       'p-chosen': chosen,
+      'p-abstention': abstention,
     }"
     @click="sendVote()"
   >
@@ -33,20 +34,22 @@
         type: Boolean,
         default: false,
       },
+      abstention: {
+        type: Boolean,
+        default: false,
+      },
     },
     computed: {
       chosen() {
         return (
-          (this.$pollAPI.store.me()?.voted &&
-            this.index === this.$pollAPI.store.me()?.vote) ||
+          this.index === this.$pollAPI.store.me()?.vote ||
           this.index === this.$pollAPI.store.local.sentVote
         );
       },
       loading() {
         return (
           this.index === this.$pollAPI.store.local.sentVote &&
-          (!this.$pollAPI.store.me()?.voted ||
-            this.index !== this.$pollAPI.store.me()?.vote)
+          this.index !== this.$pollAPI.store.me()?.vote
         );
       },
       showResults() {
@@ -142,6 +145,16 @@
     }
     &.p-show-results .p-vote-result-numbers {
       visibility: visible;
+    }
+
+    &.p-abstention {
+      .p-vote-option-label::before {
+        counter-increment: option-index 0;
+        content: "—";
+      }
+      .p-vote-result {
+        background: var(--primary-900);
+      }
     }
   }
 </style>

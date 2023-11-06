@@ -16,5 +16,4 @@ import {
 export class PollPlayer extends Schema {
   @type("boolean") public admin!: boolean;
   @type("uint8") public vote!: number;
-  @type("boolean") public voted!: boolean;
 }

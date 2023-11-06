@@ -6,7 +6,4 @@ export class PollPlayer extends Schema {
 
   @type("uint8")
   vote = 0;
-
-  @type("boolean")
-  voted = false;
 }

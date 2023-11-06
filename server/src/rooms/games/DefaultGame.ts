@@ -11,15 +11,15 @@ export class DefaultGame extends Game {
     super(state);
   }
 
-  onPlayerJoin(client: Client): void {}
+  onPlayerJoin(client: Client): void {
+    this.state.votes.set("0", (this.state.votes.get("0") ?? 0) + 1);
+  }
 
   onPlayerLeave(client: Client): void {
     const player = this.state.players.get(client.sessionId);
     if (player) {
-      if (player.voted) {
-        const voteKey = player.vote.toString();
-        this.state.votes.set(voteKey, (this.state.votes.get(voteKey) ?? 1) - 1);
-      }
+      const voteKey = player.vote.toString();
+      this.state.votes.set(voteKey, (this.state.votes.get(voteKey) ?? 1) - 1);
     }
   }
 

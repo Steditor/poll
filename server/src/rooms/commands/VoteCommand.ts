@@ -19,14 +19,11 @@ export class VoteCommand extends Command<
   execute({ client, vote }: this["payload"]): void {
     const player = this.state.players.get(client.sessionId);
     if (player) {
-      if (player.voted) {
-        const voteKey = player.vote.toString();
-        this.state.votes.set(voteKey, (this.state.votes.get(voteKey) ?? 1) - 1);
-      }
+      let voteKey = player.vote.toString();
+      this.state.votes.set(voteKey, (this.state.votes.get(voteKey) ?? 1) - 1);
 
       player.vote = vote;
-      player.voted = true;
-      const voteKey = player.vote.toString();
+      voteKey = player.vote.toString();
       this.state.votes.set(voteKey, (this.state.votes.get(voteKey) ?? 0) + 1);
 
       sendVoteSuccess(this.room, client);
@@ -38,7 +35,7 @@ export class VoteCommand extends Command<
       sendVoteError(this.room, client);
       return false;
     }
-    if (this.state.settings.numberOfOptions <= vote) {
+    if (this.state.settings.numberOfOptions < vote) {
       return false;
     }
     if (!this.state.settings.openVote) {

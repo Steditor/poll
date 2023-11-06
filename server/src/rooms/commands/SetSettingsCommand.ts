@@ -21,22 +21,22 @@ export class SetSettingsCommand extends Command<
     // Ensure state is consistent with number of options
     for (
       let i = this.state.votes.size - 1;
-      i >= this.state.settings.numberOfOptions;
+      i > this.state.settings.numberOfOptions;
       i--
     ) {
       this.state.votes.delete(i.toString());
     }
     for (
       let i = this.state.votes.size;
-      i < this.state.settings.numberOfOptions;
+      i <= this.state.settings.numberOfOptions;
       i++
     ) {
       this.state.votes.set(i.toString(), 0);
     }
     for (const [, player] of this.state.players) {
-      if (player.vote >= this.state.settings.numberOfOptions) {
-        player.voted = false;
+      if (player.vote > this.state.settings.numberOfOptions) {
         player.vote = 0;
+        this.state.votes.set("0", (this.state.votes.get("0") ?? 0) + 1);
       }
     }
 

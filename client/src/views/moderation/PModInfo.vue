@@ -24,7 +24,7 @@
       <p>
         There {{ numberOfPeople === 1 ? "is" : "are" }} currently
         {{ numberOfPeople }} {{ numberOfPeople === 1 ? "person" : "people" }} in
-        the poll.
+        the poll (including you).
       </p>
       <p>
         If you want to allow others to moderate this poll, send them the

@@ -5,10 +5,11 @@
     style="--p-option-style: lower-alpha"
     :style="{ '--p-max-votes': maxVotes }"
   >
+    <PVoteOption :index="0" :readonly="readonly" :abstention="true" />
     <PVoteOption
       v-for="n in $pollAPI.store.settings.numberOfOptions"
-      :index="n - 1"
-      :key="n - 1"
+      :index="n"
+      :key="n"
       :readonly="readonly"
     />
   </ol>
@@ -44,6 +45,8 @@
     display: grid;
     row-gap: 1rem;
     align-content: stretch;
+    grid-template-rows: min-content;
+    grid-auto-rows: 1fr;
 
     height: 100%;
     overflow-y: auto;

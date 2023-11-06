@@ -9,11 +9,10 @@ export default class PlayerStore implements SchemaProperties<PollPlayer> {
   private readonly _properties = reactive<SchemaProperties<PollPlayer>>({
     admin: false,
     vote: 0,
-    voted: false,
   });
 
   constructor(player: PollPlayer) {
-    watchObject(this._properties, player, ["admin", "vote", "voted"]);
+    watchObject(this._properties, player, ["admin", "vote"]);
   }
 
   get admin(): boolean {
@@ -22,9 +21,5 @@ export default class PlayerStore implements SchemaProperties<PollPlayer> {
 
   get vote(): number {
     return this._properties.vote;
-  }
-
-  get voted(): boolean {
-    return this._properties.voted;
   }
 }
