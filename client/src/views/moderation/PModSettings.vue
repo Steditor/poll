@@ -32,6 +32,12 @@
             Show
           </div>
         </div>
+        <div class="field grid">
+          <label class="col-12 mb-1 sm:col-4 sm:mb-3">Reset</label>
+          <div class="col-12 mb-3 sm:col-8">
+            <Button label="Clear Votes" icon="pi pi-undo" @click="clearVotes" />
+          </div>
+        </div>
       </div>
     </template>
   </Card>
@@ -40,6 +46,7 @@
 <script lang="ts">
   import { defineComponent } from "vue";
 
+  import Button from "primevue/button";
   import Card from "primevue/card";
   import InputNumber from "primevue/inputnumber";
   import InputSwitch from "primevue/inputswitch";
@@ -52,11 +59,17 @@
       Card,
       InputNumber,
       InputSwitch,
+      Button,
     },
     computed: {
       numberOfOptions: settingsFieldModel("numberOfOptions"),
       openVote: settingsFieldModel("openVote"),
       showResults: settingsFieldModel("showResults"),
+    },
+    methods: {
+      clearVotes() {
+        this.$pollAPI.roomAPI.clearVotes();
+      },
     },
   });
 </script>

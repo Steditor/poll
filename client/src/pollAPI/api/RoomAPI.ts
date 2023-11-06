@@ -12,4 +12,8 @@ export class RoomAPI {
   public setSettings(settings: SetSettingsPayload): boolean {
     return this._api.send("setSettings", settings);
   }
+
+  public clearVotes(): boolean {
+    return this._api.send("clearVotes");
+  }
 }
