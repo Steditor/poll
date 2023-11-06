@@ -15,7 +15,7 @@ export class PollState extends Schema {
   players = new MapSchema<PollPlayer>();
 
   @type("uint32")
-  numberOfPlayers = 0;
+  numberOfVoters = 0;
 
   @filterChildren(function (
     client: ClientWithSessionId,
@@ -31,10 +31,26 @@ export class PollState extends Schema {
   @type({ map: "number" })
   votes = new MapSchema<number>();
 
-  public rerunVotesFilter(): void {
-    // re-set all votes to make sure they are synchronized properly
-    const votes = new Map<string, number>(this.votes.entries());
+  constructor() {
+    super();
+    this.recomputeVotes();
+  }
+
+  public recomputeVotes() {
     this.votes.clear();
-    votes.forEach((value, key) => this.votes.set(key, value));
+
+    for (let i = 0; i <= this.settings.numberOfOptions; i++) {
+      this.votes.set(i.toString(), 0);
+    }
+
+    for (const [, player] of this.players) {
+      if (player.admin) continue;
+
+      if (player.vote > this.settings.numberOfOptions) {
+        player.vote = 0;
+      }
+      const voteKey = player.vote.toString();
+      this.votes.set(voteKey, (this.votes.get(voteKey) ?? 0) + 1);
+    }
   }
 }

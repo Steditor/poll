@@ -42,12 +42,14 @@
     computed: {
       chosen() {
         return (
-          this.index === this.$pollAPI.store.me()?.vote ||
-          this.index === this.$pollAPI.store.local.sentVote
+          !this.$pollAPI.store.me()?.admin &&
+          (this.index === this.$pollAPI.store.me()?.vote ||
+            this.index === this.$pollAPI.store.local.sentVote)
         );
       },
       loading() {
         return (
+          !this.$pollAPI.store.me()?.admin &&
           this.index === this.$pollAPI.store.local.sentVote &&
           this.index !== this.$pollAPI.store.me()?.vote
         );

@@ -13,6 +13,7 @@ export abstract class Game {
 
   abstract onPlayerJoin(client: Client): void;
   abstract onPlayerLeave(client: Client): void;
+  abstract onPlayerBecomeAdmin(client: Client): void;
 
   abstract onMessage(
     type: string | number,

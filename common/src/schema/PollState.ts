@@ -20,7 +20,7 @@ export class PollState extends Schema {
   @type(PollSettings) public settings: PollSettings = new PollSettings();
   @type({ map: PollPlayer }) public players: MapSchema<PollPlayer> =
     new MapSchema<PollPlayer>();
-  @type("uint32") public numberOfPlayers!: number;
+  @type("uint32") public numberOfVoters!: number;
   @type({ map: "number" }) public votes: MapSchema<number> =
     new MapSchema<number>();
 }

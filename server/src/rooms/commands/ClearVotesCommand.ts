@@ -11,8 +11,7 @@ export class ClearVotesCommand extends Command<
 > {
   execute(): void {
     this.state.players.forEach((player) => (player.vote = 0));
-    this.state.votes.forEach((_, key) => this.state.votes.set(key, 0));
-    this.state.votes.set("0", this.state.numberOfPlayers);
+    this.state.recomputeVotes();
   }
 
   validate({ client }: this["payload"]): boolean {

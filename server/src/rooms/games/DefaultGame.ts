@@ -14,7 +14,16 @@ export class DefaultGame extends Game {
   }
 
   onPlayerJoin(client: Client): void {
-    this.state.votes.set("0", (this.state.votes.get("0") ?? 0) + 1);
+    const player = this.state.players.get(client.sessionId);
+    if (player) {
+      player.vote = 0;
+      this.state.votes.set("0", (this.state.votes.get("0") ?? 0) + 1);
+      this.state.numberOfVoters++;
+    }
+  }
+
+  onPlayerBecomeAdmin(client: Client): void {
+    this.onPlayerLeave(client);
   }
 
   onPlayerLeave(client: Client): void {
@@ -22,6 +31,7 @@ export class DefaultGame extends Game {
     if (player) {
       const voteKey = player.vote.toString();
       this.state.votes.set(voteKey, (this.state.votes.get(voteKey) ?? 1) - 1);
+      this.state.numberOfVoters--;
     }
   }
 

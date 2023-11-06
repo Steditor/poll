@@ -30,7 +30,7 @@ export class VoteCommand extends Command<
     }
   }
 
-  validate({ client, vote }: this["payload"] & { key: any }): boolean {
+  validate({ client, vote }: this["payload"] & { vote: any }): boolean {
     if (!validate(vote)) {
       sendVoteError(this.room, client);
       return false;

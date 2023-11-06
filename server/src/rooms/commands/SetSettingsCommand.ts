@@ -18,31 +18,7 @@ export class SetSettingsCommand extends Command<
   execute({ settings }: this["payload"]): void {
     Object.assign(this.state.settings, settings);
 
-    // Ensure state is consistent with number of options
-    for (
-      let i = this.state.votes.size - 1;
-      i > this.state.settings.numberOfOptions;
-      i--
-    ) {
-      this.state.votes.delete(i.toString());
-    }
-    for (
-      let i = this.state.votes.size;
-      i <= this.state.settings.numberOfOptions;
-      i++
-    ) {
-      this.state.votes.set(i.toString(), 0);
-    }
-    for (const [, player] of this.state.players) {
-      if (player.vote > this.state.settings.numberOfOptions) {
-        player.vote = 0;
-        this.state.votes.set("0", (this.state.votes.get("0") ?? 0) + 1);
-      }
-    }
-
-    if (settings.showResults !== undefined) {
-      this.state.rerunVotesFilter();
-    }
+    this.state.recomputeVotes();
   }
 
   validate({ client, settings }: this["payload"] & { settings: any }): boolean {

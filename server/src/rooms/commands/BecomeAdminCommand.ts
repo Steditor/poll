@@ -5,6 +5,7 @@ import Ajv from "ajv";
 import { BecomeAdminPayload } from "@poll/common/playerInterface";
 
 import { Poll } from "../Poll.js";
+import { Game } from "../games/Game";
 import { sendToast } from "../helpers/messages.js";
 
 const validate = new Ajv().compile(BecomeAdminPayload);
@@ -14,12 +15,14 @@ export class BecomeAdminCommand extends Command<
   {
     client: Client;
     key: BecomeAdminPayload;
+    game: Game;
   }
 > {
-  execute({ client }: this["payload"]): void {
+  execute({ client, game }: this["payload"]): void {
     const player = this.state.players.get(client.sessionId);
-    if (player) {
+    if (player && !player.admin) {
       player.admin = true;
+      game.onPlayerBecomeAdmin(client);
       this.state.settings.rerunFilters();
     }
   }

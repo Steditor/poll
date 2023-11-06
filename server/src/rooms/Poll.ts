@@ -35,7 +35,11 @@ export class Poll extends Room<PollState> {
     });
 
     this.onMessage("becomeAdmin", (client, key) => {
-      this.dispatcher.dispatch(new BecomeAdminCommand(), { client, key });
+      this.dispatcher.dispatch(new BecomeAdminCommand(), {
+        client,
+        key,
+        game: this.game,
+      });
     });
 
     this.onMessage("*", (client, type, message) => {

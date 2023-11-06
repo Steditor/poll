@@ -17,7 +17,7 @@ export default class PollStore {
 
   public readonly settings = new SettingsStore();
   public readonly players = shallowReactive(new Map<string, PlayerStore>());
-  public readonly numberOfPlayers = ref<number>(0);
+  public readonly numberOfVoters = ref<number>(0);
   public readonly votes = shallowReactive(new Map<string, number>());
 
   public readonly local = new LocalStore();
@@ -34,8 +34,8 @@ export default class PollStore {
 
     this.settings.watch(room.state.settings);
     watchMap(this.players, room.state.players, PlayerStore);
-    room.state.listen("numberOfPlayers", (value) => {
-      this.numberOfPlayers.value = value;
+    room.state.listen("numberOfVoters", (value) => {
+      this.numberOfVoters.value = value;
     });
     watchMap(this.votes, room.state.votes);
 
@@ -51,7 +51,7 @@ export default class PollStore {
 
     this.settings.clear();
     this.players.clear();
-    this.numberOfPlayers.value = 0;
+    this.numberOfVoters.value = 0;
     this.votes.clear();
 
     this.local.clear();

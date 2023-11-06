@@ -23,18 +23,21 @@ export class OnJoinCommand extends Command<
     const player = new PollPlayer();
 
     this.state.players.set(client.sessionId, player);
-    this.state.numberOfPlayers++;
     game.onPlayerJoin(client);
 
     const commands = [] as Array<Command>;
     if (options?.initialModerationKey) {
       const becomeAdmin = new BecomeAdminCommand();
-      becomeAdmin.setPayload({ client, key: options.initialModerationKey });
+      becomeAdmin.setPayload({
+        client,
+        key: options.initialModerationKey,
+        game,
+      });
       commands.push(becomeAdmin);
     }
     return commands;
   }
-  validate({ options }: this["payload"] & { options: unknown }): boolean {
+  validate({ options }: this["payload"] & { options: any }): boolean {
     return validate(options);
   }
 }

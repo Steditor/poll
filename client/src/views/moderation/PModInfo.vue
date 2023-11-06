@@ -22,14 +22,20 @@
         </Dialog>
       </p>
       <p>
-        There {{ numberOfPeople === 1 ? "is" : "are" }} currently
-        {{ numberOfPeople }} {{ numberOfPeople === 1 ? "person" : "people" }} in
-        the poll (including you).
+        There {{ numberOfVoters.value === 1 ? "is" : "are" }} currently
+        {{ numberOfVoters }}
+        {{ numberOfVoters.value === 1 ? "voter" : "voters" }} in the poll.
       </p>
       <p>
         If you want to allow others to moderate this poll, send them the
-        moderation key in addition to the poll link:
-        <PCopyable :content="moderationKey" secret />.
+        moderation link (<PCopyable :content="moderationLink"
+          ><RouterLink :to="moderationRoute" target="_blank">{{
+            moderationLink
+          }}</RouterLink></PCopyable
+        >) and the moderation key (<PCopyable
+          :content="moderationKey"
+          secret
+        />).
       </p>
     </template>
   </Card>
@@ -67,6 +73,12 @@
           params: { roomId: this.$pollAPI.store.roomId ?? "" },
         };
       },
+      moderationRoute(): RouteLocationRaw {
+        return {
+          name: "Moderation",
+          params: { roomId: this.$pollAPI.store.roomId ?? "" },
+        };
+      },
       pollLink(): string {
         return (
           document.location.protocol +
@@ -75,8 +87,16 @@
           this.$router.resolve(this.pollRoute).fullPath
         );
       },
-      numberOfPeople() {
-        return this.$pollAPI.store.numberOfPlayers;
+      moderationLink(): string {
+        return (
+          document.location.protocol +
+          "//" +
+          document.location.host +
+          this.$router.resolve(this.moderationRoute).fullPath
+        );
+      },
+      numberOfVoters() {
+        return this.$pollAPI.store.numberOfVoters;
       },
     },
   });
