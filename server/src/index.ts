@@ -11,15 +11,15 @@ import { Poll } from "./rooms/Poll.js";
 
 dotenv.config({
   path: "../.env",
+  override: true,
 });
 dotenv.config({
   path: "../.env.local",
+  override: true,
 });
 
 const port = Number(process.env.EXPRESS_PORT);
 const app = express();
-
-app.use(express.json());
 
 const server = http.createServer(app);
 const gameServer = new Server({
@@ -32,11 +32,10 @@ const gameServer = new Server({
 gameServer.define("poll", Poll);
 
 // register colyseus monitor
-const monitorPassword = process.env.MONITOR_PASSWORD!;
 app.use(
   "/colyseus",
   expressBasicAuth({
-    users: { admin: monitorPassword },
+    users: { admin: process.env.MONITOR_PASSWORD! },
     challenge: true,
     realm: "Colyseus monitor for Poll",
   }),

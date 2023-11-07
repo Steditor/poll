@@ -29,7 +29,7 @@ export default defineConfig(({ mode }) => {
       }),
     ],
     server: {
-      port: env.VUE_DEV_SERVER_PORT,
+      port: Number(env.VUE_DEV_SERVER_PORT),
       strictPort: true,
     },
     build: {
@@ -45,5 +45,7 @@ export default defineConfig(({ mode }) => {
         },
       },
     },
+    mode,
+    base: env.VUE_BASE_URL,
   };
 });
