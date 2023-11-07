@@ -10,7 +10,7 @@
               :min="2"
               :max="255"
               v-model="numberOfOptions"
-              show-buttons="show-buttons"
+              :show-buttons="true"
               button-layout="horizontal"
               incrementButtonIcon="pi pi-plus"
               decrementButtonIcon="pi pi-minus"
@@ -55,7 +55,7 @@
 </template>
 
 <script lang="ts">
-  import { defineComponent } from "vue";
+  import { WritableComputedOptions, defineComponent } from "vue";
 
   import Button from "primevue/button";
   import Card from "primevue/card";
@@ -77,10 +77,18 @@
       InputSwitch,
     },
     computed: {
-      numberOfOptions: settingsFieldModel("numberOfOptions"),
-      numbering: settingsFieldModel("numbering"),
-      openVote: settingsFieldModel("openVote"),
-      showResults: settingsFieldModel("showResults"),
+      numberOfOptions: settingsFieldModel(
+        "numberOfOptions",
+      ) as WritableComputedOptions<number>,
+      numbering: settingsFieldModel(
+        "numbering",
+      ) as WritableComputedOptions<string>,
+      openVote: settingsFieldModel(
+        "openVote",
+      ) as WritableComputedOptions<boolean>,
+      showResults: settingsFieldModel(
+        "showResults",
+      ) as WritableComputedOptions<boolean>,
     },
     methods: {
       LABELED_NUMBERINGS() {
