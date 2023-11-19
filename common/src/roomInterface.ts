@@ -5,6 +5,7 @@ import { SchemaProperties } from "./schema/helpers";
 
 export interface PollRoomJoinOptions {
   initialModerationKey?: string;
+  roomId?: string;
 }
 
 export const PollRoomJoinOptions: JSONSchemaType<PollRoomJoinOptions> = {
@@ -16,9 +17,13 @@ export const PollRoomJoinOptions: JSONSchemaType<PollRoomJoinOptions> = {
       maxLength: 15,
       nullable: true,
     },
+    roomId: {
+      type: "string",
+      nullable: true,
+    },
   },
-  required: [],
   additionalProperties: false,
+  maxProperties: 1,
 };
 
 export enum PollCloseCodes {

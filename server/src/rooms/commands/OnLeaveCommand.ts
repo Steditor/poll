@@ -9,7 +9,7 @@ export class OnLeaveCommand extends Command<
   {
     client: Client;
     consented: boolean;
-    game: Game;
+    game?: Game;
   }
 > {
   async execute({ client, consented, game }: this["payload"]): Promise<void> {
@@ -22,8 +22,8 @@ export class OnLeaveCommand extends Command<
       }
     }
     if (consented || timeout) {
-      game.onPlayerLeave(client);
-      this.state.players.delete(client.sessionId);
+      game?.onPlayerLeave(client);
+      this.state?.players?.delete(client.sessionId);
     }
   }
 }

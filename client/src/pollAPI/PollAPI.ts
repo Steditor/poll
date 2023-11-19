@@ -1,4 +1,5 @@
 import * as Colyseus from "colyseus.js";
+import { MatchMakeError } from "colyseus.js/lib/Client";
 import { nanoid } from "nanoid";
 
 import { PollRoomJoinOptions } from "@poll/common/roomInterface";
@@ -45,36 +46,52 @@ export default class PollAPI {
         initialModerationKey: nanoid(15),
       } as PollRoomJoinOptions);
       this.watchRoom(this._room);
+      this.receiveMessages(this._room);
     } catch (e) {
       return undefined;
     }
     return this._room.id;
   }
 
-  public async joinPoll(
-    id: string,
-    options?: PollRoomJoinOptions,
-  ): Promise<JoinPollResult> {
+  public async joinPoll(id: string): Promise<JoinPollResult> {
     if (this._room) {
       if (this._room.id === id) {
         return JoinPollResult.SUCCESSFUL;
       } else {
-        this._room.leave(true);
+        await this._room.leave(true);
         this._room = undefined;
       }
     }
     try {
-      this._room = await this._client.joinById(id, options);
+      this._room = await this.joinOrRecreate(id);
       this.watchRoom(this._room);
       this.receiveMessages(this._room);
     } catch (e: any) {
-      if ((e.message as string).includes("not found")) {
+      const error = e as MatchMakeError;
+      if (error.code === 4212) {
+        // MATCHMAKE_INVALID_ROOM_ID
         return JoinPollResult.ROOM_NOT_FOUND;
       } else {
         return JoinPollResult.UNKNOWN_ERROR;
       }
     }
     return JoinPollResult.SUCCESSFUL;
+  }
+
+  private async joinOrRecreate(id: string): Promise<Colyseus.Room<PollState>> {
+    try {
+      return await this._client.joinById(id);
+    } catch (e: any) {
+      const error = e as MatchMakeError;
+      if (error.code === 4212) {
+        // MATCHMAKE_INVALID_ROOM_ID
+        return await this._client.create("poll", {
+          roomId: id,
+        } as PollRoomJoinOptions);
+      } else {
+        throw e;
+      }
+    }
   }
 
   public send<T>(type: string | number, message?: T): boolean {

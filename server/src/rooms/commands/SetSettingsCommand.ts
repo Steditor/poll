@@ -5,6 +5,7 @@ import Ajv from "ajv";
 import { SetSettingsPayload } from "@poll/common/roomInterface";
 
 import { Poll } from "../Poll.js";
+import { persistPollSettings } from "../helpers/persistence.js";
 
 const validate = new Ajv().compile(SetSettingsPayload);
 
@@ -15,8 +16,10 @@ export class SetSettingsCommand extends Command<
     settings: SetSettingsPayload;
   }
 > {
-  execute({ settings }: this["payload"]): void {
+  async execute({ settings }: this["payload"]): Promise<void> {
     Object.assign(this.state.settings, settings);
+
+    await persistPollSettings(this.room.roomId, this.state.settings);
 
     this.state.recomputeVotes();
   }

@@ -7,7 +7,9 @@ import expressBasicAuth from "express-basic-auth";
 import http from "http";
 import serveStatic from "serve-static";
 
+import { prisma } from "./db.js";
 import { Poll } from "./rooms/Poll.js";
+import { deleteExpired } from "./rooms/helpers/persistence.js";
 
 dotenv.config({
   path: "../.env",
@@ -30,6 +32,13 @@ const gameServer = new Server({
 
 // register room handlers
 gameServer.define("poll", Poll);
+const roomCleanup = setInterval(deleteExpired, 1000 * 60 * 5); // every 5 min
+
+// close db connection on shutdown
+gameServer.onShutdown(async () => {
+  clearInterval(roomCleanup);
+  await prisma.$disconnect();
+});
 
 // register colyseus monitor
 app.use(

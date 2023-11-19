@@ -38,6 +38,7 @@ export class PollState extends Schema {
 
   public recomputeVotes() {
     this.votes.clear();
+    this.numberOfVoters = 0;
 
     for (let i = 0; i <= this.settings.numberOfOptions; i++) {
       this.votes.set(i.toString(), 0);
@@ -51,6 +52,8 @@ export class PollState extends Schema {
       }
       const voteKey = player.vote.toString();
       this.votes.set(voteKey, (this.votes.get(voteKey) ?? 0) + 1);
+
+      this.numberOfVoters++;
     }
   }
 }
