@@ -13,19 +13,19 @@
     "start": "cross-env NODE_ENV=production node dist/index.js"
   },
   "devDependencies": {
-    "@types/debug": "^4.1.11",
+    "@types/debug": "^4.1.12",
     "@types/express": "^4.17.21",
-    "@types/jsdom": "^21.1.5",
-    "@types/randomcolor": "^0.5.8",
-    "@types/serve-static": "^1.15.4",
+    "@types/jsdom": "^21.1.6",
+    "@types/randomcolor": "^0.5.9",
+    "@types/serve-static": "^1.15.5",
     "cross-env": "^7.0.3",
-    "prisma": "^5.5.2"
+    "prisma": "^5.8.0"
   },
   "dependencies": {
     "@colyseus/command": "^0.2.1",
-    "@colyseus/monitor": "^0.15.1",
-    "@prisma/client": "^5.5.2",
-    "colyseus": "^0.15.9",
+    "@colyseus/monitor": "^0.15.4",
+    "@prisma/client": "^5.8.0",
+    "colyseus": "^0.15.15",
     "dotenv": "^16.3.1",
     "express": "^4.18.2",
     "express-basic-auth": "^1.2.1",

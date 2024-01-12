@@ -1,6 +1,7 @@
 {
   "name": "@poll/client",
   "private": true,
+  "type": "module",
   "scripts": {
     "clean": "rimraf --glob dist *.tsbuildinfo",
     "lint": "eslint \"./**/*.{js,ts,vue}\"",
@@ -11,22 +12,22 @@
     "serve": "vite preview"
   },
   "dependencies": {
-    "colyseus.js": "^0.15.14",
-    "gsap": "^3.12.2",
+    "colyseus.js": "^0.15.15",
+    "gsap": "^3.12.4",
     "primeflex": "^3.3.1",
     "primeicons": "^6.0.1",
-    "primevue": "^3.39.0",
+    "primevue": "^3.46.0",
     "qrcode": "^1.5.3",
     "screenfull": "^6.0.2",
-    "vue": "^3.3.8",
+    "vue": "^3.4.11",
     "vue-router": "^4.2.5"
   },
   "devDependencies": {
     "@types/qrcode": "^1.5.5",
-    "@vitejs/plugin-vue": "^4.4.0",
-    "eslint-plugin-vue": "^9.18.1",
-    "sass": "^1.69.5",
-    "vite": "^4.5.0",
-    "vite-plugin-static-copy": "^0.17.0"
+    "@vitejs/plugin-vue": "^5.0.3",
+    "eslint-plugin-vue": "^9.20.0",
+    "sass": "^1.69.7",
+    "vite": "^5.0.11",
+    "vite-plugin-static-copy": "^1.0.0"
   }
 }
