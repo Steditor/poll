@@ -5,7 +5,6 @@ import { Client } from "colyseus";
 import { Poll } from "../Poll";
 import { ClearVotesCommand } from "../commands/ClearVotesCommand.js";
 import { VoteCommand } from "../commands/VoteCommand.js";
-import { PollPlayer } from "../schema/PollPlayer";
 import { PollState } from "../schema/PollState.js";
 import { Game } from "./Game.js";
 
@@ -23,7 +22,7 @@ export class DefaultGame extends Game {
     }
   }
 
-  onPlayerBecomeAdmin(client: Client): void {
+  onPlayerBecomeAdmin(): void {
     this.state.recomputeVotes();
   }
 

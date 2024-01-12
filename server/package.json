@@ -6,9 +6,9 @@
     "clean": "rimraf --glob dist *.tsbuildinfo",
     "lint": "eslint \"./**/*.{js,ts}\"",
     "lint:fix": "eslint \"./**/*.{js,ts}\" --fix",
-    "dev": "nodemon --watch ../common --watch . --exec \"node --loader ts-node/esm\" src/index.ts",
+    "dev": "prisma generate && nodemon --watch ../common --watch . --exec \"node --loader ts-node/esm\" src/index.ts",
     "generate-schema": "npx schema-codegen src/rooms/schema/* --ts --output ../common/src/schema/",
-    "prebuild": "npm run clean",
+    "prebuild": "npm run clean && prisma generate",
     "build": "tsc --build tsconfig.build.json",
     "start": "cross-env NODE_ENV=production node dist/index.js"
   },

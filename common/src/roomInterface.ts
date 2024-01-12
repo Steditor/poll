@@ -33,7 +33,7 @@ export enum PollCloseCodes {
 export type SetSettingsPayload = Partial<
   Pick<
     SchemaProperties<PollSettings>,
-    "numberOfOptions" | "numbering" | "openVote" | "showResults"
+    "numberOfOptions" | "numbering" | "openVote" | "showResults" | "expiryDelay"
   >
 >;
 
@@ -56,6 +56,23 @@ export const LABELED_NUMBERINGS: readonly {
   { label: "I, II, III, IV, ...", value: "upper-roman" },
 ] as const;
 
+export enum ExpiryDelay {
+  Hour = "hour",
+  Day = "day",
+  Week = "week",
+  Month = "month",
+}
+
+export const LABELED_DELAYS: readonly {
+  label: string;
+  value: ExpiryDelay;
+}[] = [
+  { label: "Hour", value: ExpiryDelay.Hour },
+  { label: "Day", value: ExpiryDelay.Day },
+  { label: "Week", value: ExpiryDelay.Week },
+  { label: "Month", value: ExpiryDelay.Month },
+];
+
 export const SetSettingsPayload: JSONSchemaType<SetSettingsPayload> = {
   type: "object",
   properties: {
@@ -76,6 +93,11 @@ export const SetSettingsPayload: JSONSchemaType<SetSettingsPayload> = {
     },
     showResults: {
       type: "boolean",
+      nullable: true,
+    },
+    expiryDelay: {
+      type: "string",
+      enum: Object.values(ExpiryDelay) as readonly ExpiryDelay[],
       nullable: true,
     },
   },

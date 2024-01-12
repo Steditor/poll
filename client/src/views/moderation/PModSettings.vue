@@ -4,6 +4,20 @@
     <template #content>
       <div class="formgrid">
         <div class="field grid">
+          <label class="col-12 mb-1 sm:col-2 sm:mb-3">Expire after one</label>
+          <div class="col-6 mb-3 sm:col-4 md:col-3 lg:col-5 xl:col-4">
+            <Dropdown
+              v-model="expiryDelay"
+              :options="EXPIRY_DELAYS()"
+              option-label="label"
+              option-value="value"
+            />
+          </div>
+          <div class="col-6 mb-3 sm:col-4 md:col-3 lg:col-5 xl:col-4">
+            This poll is at least valid until {{ expiry }}.
+          </div>
+        </div>
+        <div class="field grid">
           <label class="col-12 mb-1 sm:col-2 sm:mb-3">Options</label>
           <div class="col-6 mb-3 sm:col-4 md:col-3 lg:col-5 xl:col-4">
             <InputNumber
@@ -55,6 +69,8 @@
 </template>
 
 <script lang="ts">
+  import { DateTime } from "luxon";
+
   import { WritableComputedOptions, defineComponent } from "vue";
 
   import Button from "primevue/button";
@@ -63,7 +79,10 @@
   import InputNumber from "primevue/inputnumber";
   import InputSwitch from "primevue/inputswitch";
 
-  import { LABELED_NUMBERINGS } from "@poll/common/roomInterface";
+  import {
+    LABELED_DELAYS,
+    LABELED_NUMBERINGS,
+  } from "@poll/common/roomInterface";
 
   import { settingsFieldModel } from "../../pollAPI/helpers/fieldModels";
 
@@ -89,10 +108,20 @@
       showResults: settingsFieldModel(
         "showResults",
       ) as WritableComputedOptions<boolean>,
+      expiryDelay: settingsFieldModel(
+        "expiryDelay",
+      ) as WritableComputedOptions<string>,
+      expiry() {
+        const d = DateTime.fromISO(this.$pollAPI.store.settings.expiry);
+        return d.setLocale("en").toLocaleString(DateTime.DATETIME_FULL);
+      },
     },
     methods: {
       LABELED_NUMBERINGS() {
         return LABELED_NUMBERINGS;
+      },
+      EXPIRY_DELAYS() {
+        return LABELED_DELAYS;
       },
       clearVotes() {
         this.$pollAPI.roomAPI.clearVotes();

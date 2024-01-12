@@ -10,12 +10,12 @@ import { BecomeAdminCommand } from "./commands/BecomeAdminCommand.js";
 import { OnJoinCommand } from "./commands/OnJoinCommand.js";
 import { OnLeaveCommand } from "./commands/OnLeaveCommand.js";
 import { SetSettingsCommand } from "./commands/SetSettingsCommand.js";
+import { UpdateExpiryCommand } from "./commands/UpdateExpiryCommand.js";
 import { DefaultGame } from "./games/DefaultGame.js";
 import { Game } from "./games/Game.js";
 import {
   entityToSchemalike,
   persistPollSettings,
-  updateExpiry,
 } from "./helpers/persistence.js";
 import { PollState } from "./schema/PollState.js";
 
@@ -66,7 +66,7 @@ export class Poll extends Room<PollState> {
         client,
         settings,
       });
-      await updateExpiry(this.roomId);
+      await this.dispatcher.dispatch(new UpdateExpiryCommand());
     });
 
     this.onMessage("becomeAdmin", async (client, key) => {
@@ -75,12 +75,12 @@ export class Poll extends Room<PollState> {
         key,
         game: this.game,
       });
-      await updateExpiry(this.roomId);
+      await this.dispatcher.dispatch(new UpdateExpiryCommand());
     });
 
     this.onMessage("*", async (client, type, message) => {
       this.game.onMessage(type, client, message, this.dispatcher);
-      await updateExpiry(this.roomId);
+      await this.dispatcher.dispatch(new UpdateExpiryCommand());
     });
   }
 
@@ -99,7 +99,7 @@ export class Poll extends Room<PollState> {
       options,
       game: this.game,
     });
-    await updateExpiry(this.roomId);
+    await this.dispatcher.dispatch(new UpdateExpiryCommand());
   }
 
   async onLeave(client: Client, consented: boolean): Promise<void> {
@@ -108,7 +108,7 @@ export class Poll extends Room<PollState> {
       consented,
       game: this.game,
     });
-    await updateExpiry(this.roomId);
+    await this.dispatcher.dispatch(new UpdateExpiryCommand());
   }
 
   onDispose(): void | Promise<any> {}

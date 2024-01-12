@@ -1,5 +1,8 @@
+import { DateTime } from "luxon";
+
 import { reactive } from "vue";
 
+import { ExpiryDelay } from "@poll/common/roomInterface";
 import { PollSettings } from "@poll/common/schema/PollSettings";
 import { SchemaProperties } from "@poll/common/schema/helpers";
 
@@ -21,6 +24,8 @@ export default class SettingsStore implements SchemaProperties<PollSettings> {
       "openVote",
       "showResults",
       "moderationKey",
+      "expiry",
+      "expiryDelay",
     ]);
   }
 
@@ -43,6 +48,14 @@ export default class SettingsStore implements SchemaProperties<PollSettings> {
   get moderationKey(): string {
     return this._properties.moderationKey;
   }
+
+  get expiry(): string {
+    return this._properties.expiry;
+  }
+
+  get expiryDelay(): string {
+    return this._properties.expiryDelay;
+  }
 }
 
 function defaultSettings(): SchemaProperties<PollSettings> {
@@ -52,5 +65,7 @@ function defaultSettings(): SchemaProperties<PollSettings> {
     openVote: false,
     showResults: false,
     moderationKey: "",
+    expiry: DateTime.now().plus({ hour: 1 }).toISO()!,
+    expiryDelay: ExpiryDelay.Hour,
   };
 }

@@ -2,7 +2,8 @@ import { Schema, filter, type } from "@colyseus/schema";
 import { DateTime } from "luxon";
 import { nanoid } from "nanoid";
 
-import { ExpiryDelay } from "../helpers/persistence.js";
+import { ExpiryDelay } from "@poll/common/roomInterface";
+
 import { PollState } from "./PollState.js";
 
 export class PollSettings extends Schema {

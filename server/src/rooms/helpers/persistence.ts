@@ -1,6 +1,7 @@
 import { PollSettings as PollSettingsEntity } from "@prisma/client";
 import { DateTime, DurationLike } from "luxon";
 
+import { ExpiryDelay } from "@poll/common/roomInterface";
 import { PollSettings as PollSettingsSchema } from "@poll/common/schema/PollSettings";
 
 import { prisma } from "../../db.js";
@@ -11,23 +12,17 @@ export async function persistPollSettings(
   settings: PollSettingsSchema,
 ) {
   await prisma.pollSettings.upsert({
-    where: { roomId: roomId },
+    where: { roomId },
     create: Object.assign({ roomId }, schemalikeToEntity(settings)),
     update: schemalikeToEntity(settings),
   });
 }
 
-export async function updateExpiry(roomId: string) {
-  const delay = await prisma.pollSettings.findUnique({
-    where: { roomId },
-    select: { expiryDelay: true },
-  });
-  let expiryDelay = ExpiryDelay.Hour;
-  if (delay) {
-    expiryDelay = delay.expiryDelay as ExpiryDelay;
-  }
+export async function computeExtendedExpiry(
+  delay: ExpiryDelay,
+): Promise<string> {
   let delayDuration: DurationLike;
-  switch (expiryDelay) {
+  switch (delay) {
     case ExpiryDelay.Hour:
     default:
       delayDuration = { hour: 1 };
@@ -42,14 +37,7 @@ export async function updateExpiry(roomId: string) {
       delayDuration = { month: 1 };
       break;
   }
-  try {
-    await prisma.pollSettings.update({
-      where: { roomId },
-      data: { expiry: DateTime.now().plus(delayDuration).toJSDate() },
-    });
-  } catch (e) {
-    // ignore missing records
-  }
+  return DateTime.now().plus(delayDuration).toISO()!;
 }
 
 export async function deleteExpired() {
@@ -88,11 +76,4 @@ function schemalikeToEntity(
     expiry: DateTime.fromISO(settings.expiry).toJSDate(),
     expiryDelay: settings.expiryDelay,
   };
-}
-
-export enum ExpiryDelay {
-  Hour = "hour",
-  Day = "day",
-  Week = "week",
-  Month = "month",
 }
