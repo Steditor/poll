@@ -15,7 +15,11 @@ export default defineConfig(({ mode }) => {
         name: "include-favicon-code",
         enforce: "pre",
         transformIndexHtml(html: string) {
-          return html.replace("<!-- faviconGenerator -->", faviconCode);
+          const basedFaviconCode = faviconCode.replaceAll(
+            `href="/`,
+            `href="${env.VUE_BASE_URL}`,
+          );
+          return html.replace("<!-- faviconGenerator -->", basedFaviconCode);
         },
       },
       vue(),

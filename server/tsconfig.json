@@ -1,7 +1,7 @@
 {
   "extends": "../tsconfig.packages.json",
   "compilerOptions": {
-    "lib": ["ES2020"]
+    "lib": ["ES2021"]
   },
   "references": [{ "path": "../common" }]
 }

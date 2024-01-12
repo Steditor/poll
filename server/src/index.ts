@@ -12,12 +12,10 @@ import { Poll } from "./rooms/Poll.js";
 import { deleteExpired } from "./rooms/helpers/persistence.js";
 
 dotenv.config({
-  path: "../.env",
-  override: true,
+  path: "../.env.local",
 });
 dotenv.config({
-  path: "../.env.local",
-  override: true,
+  path: "../.env",
 });
 
 const port = Number(process.env.EXPRESS_PORT);

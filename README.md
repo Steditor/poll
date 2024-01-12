@@ -22,16 +22,6 @@ Deploy the docker image defined in [`Dockerfile`](Dockerfile).
 Remember to set the environment variable `MONITOR_PASSWORD` to a secure password.
 The image exposes the express server on port 2567.
 
-### PM2
-
-Install [PM2](https://pm2.keymetrics.io/) on your server.
-Run [`.deploy/deploy.sh`](.deploy/deploy.sh) from the project's root directory.
-The script will install all dependencies and build both server and client.
-Afterwards it uses PM2 to run the application.
-
-Setup your reverse proxy according to [the colyseus manual](https://docs.colyseus.io/deployment/#nginx-recommended).
-Remember to put in the `EXPRESS_PORT` you specified during setup.
-
 ## Server monitoring
 
 The server exposes the [Colyseus Monitoring Panel](https://docs.colyseus.io/tools/monitor/) under `URL:PORT/colyseus`.

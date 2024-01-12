@@ -1,0 +1,15 @@
+services:
+  poll:
+    build: ./
+    env_file:
+      - path: ./.env
+        required: true
+      - path: ./.env.local
+        required: false
+    ports:
+      - 2567:2567
+    volumes:
+      - db-data:/app/db
+
+volumes:
+  db-data:
