@@ -37,6 +37,19 @@ a {
   color: var(--text-color-secondary);
 }
 
+// custom counters
+@counter-style yes-no {
+  system: fixed;
+  symbols: "yes" "no";
+  range: 1 2;
+}
+
+@counter-style ja-nein {
+  system: fixed;
+  symbols: "ja" "nein";
+  range: 1 2;
+}
+
 // Primevue fixes
 
 .p-accordion .p-accordion-tab.p-accordion-tab-active {

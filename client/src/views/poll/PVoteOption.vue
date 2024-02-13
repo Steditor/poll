@@ -88,7 +88,7 @@
 <style lang="scss" scoped>
   .p-vote-option {
     display: grid;
-    grid-template-columns: 2em 2em 1fr;
+    grid-template-columns: 2em 2.5em 1fr;
     grid-template-areas: "indicator label content";
     align-items: center;
 

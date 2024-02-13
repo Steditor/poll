@@ -43,6 +43,8 @@ export const NUMBERINGS = [
   "decimal",
   "lower-roman",
   "upper-roman",
+  "yes-no",
+  "ja-nein",
 ] as const;
 
 export const LABELED_NUMBERINGS: readonly {
@@ -54,6 +56,8 @@ export const LABELED_NUMBERINGS: readonly {
   { label: "1, 2, 3, 4, ...", value: "decimal" },
   { label: "i, ii, iii, iv, ...", value: "lower-roman" },
   { label: "I, II, III, IV, ...", value: "upper-roman" },
+  { label: "yes, no", value: "yes-no" },
+  { label: "ja, nein", value: "ja-nein" },
 ] as const;
 
 export enum ExpiryDelay {
