@@ -11,6 +11,7 @@ Run `npm install` in the main directory to install all packages for both server 
 
 ## Development
 
+Run `npx -w @poll/server prisma migrate deploy` to initialize the database.
 Run `npm run dev` in the main directory to start server and client in watch mode.
 Access the frontend via the server URL `localhost:{{EXPRESS_PORT}}` which serves as proxy for the vue-cli dev-server.
 
